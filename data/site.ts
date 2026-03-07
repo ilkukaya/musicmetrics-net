@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "MusicMetrics",
-  domain: "https://musicmetrics.net",
+  domain: process.env.NEXT_PUBLIC_SITE_URL || "https://musicmetrics.net",
   description:
-    "MusicMetrics tracks artist growth, chart movement, track momentum, and country-level music trends with a cleaner, faster, global-first experience.",
+    "MusicMetrics is a global music performance intelligence platform covering charts, artists, tracks, countries, and editorial insights.",
   ogImage: "/og-image.svg"
 };

@@ -1,32 +1,22 @@
 import Link from "next/link";
 import { PageIntro } from "@/components/shared/page-intro";
-import { artists } from "@/lib/data";
+import { artists } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata("Artists", "Explore artist momentum pages on MusicMetrics.", "/artists");
+export const metadata = buildMetadata("Artists", "Browse artist profiles with country, genre, and momentum context.", "/artists");
 
 export default function ArtistsPage() {
   return (
     <>
-      <PageIntro title="Artists" description="Artist pages are structured for profile-level trend tracking and editorial summaries." />
-      <section className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid gap-6 md:grid-cols-2">
-          {artists.map((item) => (
-            <Link key={item.slug} href={`/artists/${item.slug}`} className="rounded-3xl border border-border bg-white p-8 shadow-soft">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">{item.genre} · {item.region}</p>
-              <h2 className="mt-2 text-2xl font-semibold text-ink">{item.name}</h2>
-              <p className="mt-3 text-slate-600">{item.summary}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 pb-12">
-        <p className="text-sm text-slate-600">
-          Continue browsing: <Link className="font-semibold text-ink underline-offset-2 hover:underline" href="/">home</Link>,
-          <Link className="ml-1 font-semibold text-ink underline-offset-2 hover:underline" href="/charts">charts hub</Link>, and
-          <Link className="ml-1 font-semibold text-ink underline-offset-2 hover:underline" href="/tracks">track pages</Link>.
-        </p>
+      <PageIntro title="Artists" description="Browse canonical artist entities with structured profile and growth context." />
+      <section className="mx-auto max-w-6xl px-6 py-12 grid gap-6 md:grid-cols-2">
+        {artists.map((item) => (
+          <Link key={item.slug} href={`/artists/${item.slug}`} className="rounded-3xl border border-border bg-white p-7 shadow-soft">
+            <h2 className="text-2xl font-semibold text-ink">{item.name}</h2>
+            <p className="mt-3 text-slate-600">{item.profile}</p>
+            <p className="mt-2 text-sm text-slate-500">{item.genres.join(" · ")} · {item.monthlyListenersEstimate.toLocaleString()} monthly listeners est.</p>
+          </Link>
+        ))}
       </section>
     </>
   );
