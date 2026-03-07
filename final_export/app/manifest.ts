@@ -1,0 +1,14 @@
+import { MetadataRoute } from "next";
+
+export default function manifest(): MetadataRoute.Manifest {
+  return {
+    name: "MusicMetrics",
+    short_name: "MusicMetrics",
+    description: "Global music performance intelligence platform.",
+    start_url: "/",
+    display: "standalone",
+    background_color: "#ffffff",
+    theme_color: "#0f172a",
+    icons: [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml" }]
+  };
+}

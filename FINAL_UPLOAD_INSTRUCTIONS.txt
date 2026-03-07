@@ -1,0 +1,7 @@
+Upload the CONTENTS of the final_export folder to the root of your GitHub repository.
+Do not upload the final_export folder itself as a nested folder unless you explicitly want that structure.
+Recommended:
+1) Open final_export
+2) Select all files/folders inside it
+3) Upload/commit them to the repository root
+4) Confirm .git, node_modules, .next, old zips, and temporary files are not included

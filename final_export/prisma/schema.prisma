@@ -1,0 +1,205 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum EntityStatus { active archived }
+enum InsightStatus { draft published }
+enum SyncStatus { queued running succeeded failed }
+enum SyncSource { spotify youtube seed manual }
+enum JobType { artists tracks charts countries full_sync }
+
+enum RedirectType { PERMANENT TEMPORARY }
+
+enum MappingEntityType { artist track album chart country insight }
+
+enum PlatformSource { spotify youtube }
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Country {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  slug      String   @unique
+  name      String
+  region    String
+  notes     String?
+  artists   Artist[]
+  charts    Chart[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Artist {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  displayName String
+  bioShort    String?
+  genres      String[]
+  countryId   String?
+  country     Country? @relation(fields: [countryId], references: [id])
+  imageUrl    String?
+  status      EntityStatus @default(active)
+  tracks      TrackArtist[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Album {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  releaseDate DateTime?
+  artworkUrl  String?
+  tracks      Track[]
+}
+
+model Track {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  title       String
+  isrc        String?
+  artworkUrl  String?
+  releaseDate DateTime?
+  durationMs  Int?
+  albumId     String?
+  album       Album?    @relation(fields: [albumId], references: [id])
+  status      EntityStatus @default(active)
+  artists     TrackArtist[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model TrackArtist {
+  trackId   String
+  artistId  String
+  role      String @default("primary")
+  track     Track  @relation(fields: [trackId], references: [id])
+  artist    Artist @relation(fields: [artistId], references: [id])
+  @@id([trackId, artistId])
+}
+
+model Chart {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  chartType        String
+  sourcePlatform   String
+  countryId        String?
+  country          Country? @relation(fields: [countryId], references: [id])
+  description      String?
+  isActive         Boolean  @default(true)
+  cadence          String
+  methodologyShort String?
+  snapshots        ChartSnapshot[]
+}
+
+model ChartSnapshot {
+  id           String   @id @default(cuid())
+  chartId      String
+  chart        Chart    @relation(fields: [chartId], references: [id])
+  snapshotDate DateTime
+  periodLabel  String
+  sourcePayload Json?
+  entries      ChartEntry[]
+  createdAt    DateTime @default(now())
+}
+
+model ChartEntry {
+  id               String   @id @default(cuid())
+  chartSnapshotId  String
+  chartSnapshot    ChartSnapshot @relation(fields: [chartSnapshotId], references: [id])
+  trackId          String?
+  artistId         String?
+  position         Int
+  previousPosition Int?
+  peakPosition     Int?
+  weeksOnChart     Int?
+  movementValue    Int?
+  sourceUrl        String?
+}
+
+model ArtistMetricsDaily { id String @id @default(cuid()) artistId String date DateTime spotifyFollowers Int? spotifyMonthlyListeners Int? youtubeSubscribers Int? youtubeViewsTotal Int? youtubeViewsDelta Int? notes Json? }
+model TrackMetricsDaily { id String @id @default(cuid()) trackId String date DateTime spotifyPopularity Int? spotifyStreamProxy Int? youtubeViews Int? youtubeLikes Int? chartPresenceCount Int? }
+model CountryMetricsDaily { id String @id @default(cuid()) countryId String date DateTime topArtistId String? topTrackId String? chartActivityScore Float? }
+
+model Insight {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  excerpt        String
+  coverImageUrl  String?
+  bodyMarkdown   String
+  status         InsightStatus @default(draft)
+  publishedAt    DateTime?
+  authorName     String
+  seoTitle       String?
+  seoDescription String?
+}
+
+model SyncJob {
+  id                 String    @id @default(cuid())
+  source             SyncSource
+  jobType            JobType
+  status             SyncStatus
+  triggeredByAdminId String?
+  startedAt          DateTime?
+  finishedAt         DateTime?
+  logs               SyncJobLog[]
+}
+
+model SyncJobLog {
+  id         String   @id @default(cuid())
+  syncJobId  String
+  syncJob    SyncJob  @relation(fields: [syncJobId], references: [id])
+  level      String
+  message    String
+  contextJson Json?
+  createdAt  DateTime @default(now())
+}
+
+model SourceMapping {
+  id              String   @id @default(cuid())
+  entityType      MappingEntityType
+  entityId        String
+  source          PlatformSource
+  externalId      String
+  externalUrl     String?
+  confidenceScore Float?
+  isPrimary       Boolean  @default(false)
+}
+
+model Redirect {
+  id       String @id @default(cuid())
+  fromPath String @unique
+  toPath   String
+  type     RedirectType @default(PERMANENT)
+  active   Boolean @default(true)
+}
+
+model SeoOverride {
+  id           String @id @default(cuid())
+  entityType   MappingEntityType
+  entityId     String
+  title        String?
+  description  String?
+  ogImage      String?
+  canonicalUrl String?
+}
+
+model SiteSetting {
+  id        String @id @default(cuid())
+  key       String @unique
+  valueJson Json
+}
