@@ -6,7 +6,8 @@ const productLinks = [
   { href: routes.artists, label: "Artists" },
   { href: routes.tracks, label: "Tracks" },
   { href: routes.countries, label: "Countries" },
-  { href: routes.insights, label: "Insights" }
+  { href: routes.insights, label: "Insights" },
+  { href: routes.admin, label: "Admin" }
 ];
 
 const companyLinks = [

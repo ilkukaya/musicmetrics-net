@@ -5,6 +5,7 @@ export const routes = {
   tracks: "/tracks",
   countries: "/countries",
   insights: "/insights",
+  admin: "/admin",
   about: "/about",
   contact: "/contact",
   privacy: "/privacy",
