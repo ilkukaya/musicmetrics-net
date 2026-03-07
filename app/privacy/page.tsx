@@ -1,16 +1,16 @@
 import { PageIntro } from "@/components/shared/page-intro";
 import { buildMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata("Privacy Policy", "Basic privacy page for the MusicMetrics MVP.", "/privacy");
+export const metadata = buildMetadata("Privacy", "Privacy policy for MusicMetrics platform and analytics processing.", "/privacy");
 
 export default function PrivacyPage() {
   return (
     <>
-      <PageIntro title="Privacy Policy" description="A simple placeholder privacy page is included for launch readiness." />
-      <section className="mx-auto max-w-5xl px-6 py-12">
-        <div className="rounded-3xl border border-border bg-white p-8 shadow-soft text-slate-600">
-          <p>MusicMetrics currently does not collect user account data in this MVP. Analytics, newsletter, and advertising integrations can be documented here in phase 2.</p>
-        </div>
+      <PageIntro title="Privacy Policy" description="How MusicMetrics handles data and analytics in the current release." />
+      <section className="mx-auto max-w-4xl px-6 py-12 space-y-4 text-slate-700">
+        <p>MusicMetrics does not provide public user accounts in phase 1.</p>
+        <p>Platform analytics may be used for aggregate traffic insights and product quality improvements.</p>
+        <p>Policy updates are published on this page as integration scope expands.</p>
       </section>
     </>
   );
