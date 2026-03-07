@@ -85,11 +85,16 @@ Required for full setup:
 
 1. In your `.env.local`, set:
    - `ADMIN_SEED_EMAIL=ilkukaya@gmail.com`
-   - `ADMIN_SEED_PASSWORD=<your-strong-password>`
+   - `ADMIN_SEED_PASSWORD=<your-password>`
 2. Start the app and open `/admin/login`.
 3. Sign in with `ilkukaya@gmail.com` and the password you configured.
 
 > Note: email matching is case-insensitive in the login handler.
+
+### Security note for your provided password
+
+You can set your current password value in **your local `.env.local` only** (or Vercel Environment Variables).
+Do **not** commit `ADMIN_SEED_PASSWORD` into Git. After first login, rotate it to a stronger unique password.
 
 ## Local setup
 
