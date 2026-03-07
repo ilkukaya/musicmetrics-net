@@ -32,3 +32,8 @@ npm run dev
 - Scheduled daily refresh jobs
 - Database and admin workflow
 - Search Console, analytics, and ad stack
+
+## Framework decision
+
+We evaluated a Next.js-to-Astro migration and decided to keep Next.js for the current production phase to avoid launch risk and SEO regression.
+See `docs/architecture-decision.md` for details and re-evaluation criteria.

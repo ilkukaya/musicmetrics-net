@@ -7,7 +7,7 @@ const productLinks = [
   { href: routes.tracks, label: "Tracks" },
   { href: routes.countries, label: "Countries" },
   { href: routes.insights, label: "Insights" },
-  { href: routes.admin, label: "Admin" }
+  { href: routes.admin, label: "Studio" }
 ];
 
 const companyLinks = [

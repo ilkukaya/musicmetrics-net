@@ -7,7 +7,7 @@ const items = [
   ["Tracks", routes.tracks],
   ["Countries", routes.countries],
   ["Insights", routes.insights],
-  ["Admin", routes.admin]
+  ["Studio", routes.admin]
 ];
 
 export function Header() {
