@@ -2,24 +2,14 @@ import Link from "next/link";
 import { SearchFilter } from "@/components/search/search-filter";
 import { AdSlot } from "@/components/shared/ad-slot";
 import { SectionHeading } from "@/components/shared/section-heading";
-import { artists, charts, countries, insights, tracks } from "@/lib/data";
+import { artists, charts, countries, insights, tracks } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata(
-  "Global music analytics platform",
-  "Track chart movement, artist growth, track momentum, and country-level trends with a cleaner, faster interface.",
+  "Global music performance intelligence",
+  "Track chart movement, artist momentum, track performance, and country-level market signals with MusicMetrics.",
   "/"
 );
-
-function Card({ title, description, href, meta }: { title: string; description: string; href: string; meta?: string }) {
-  return (
-    <Link href={href} className="rounded-3xl border border-border bg-white p-6 shadow-soft transition hover:-translate-y-0.5 hover:border-accent">
-      {meta ? <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-accent">{meta}</p> : null}
-      <h3 className="text-xl font-semibold text-ink">{title}</h3>
-      <p className="mt-3 text-slate-600">{description}</p>
-    </Link>
-  );
-}
 
 export default function HomePage() {
   return (
@@ -27,107 +17,35 @@ export default function HomePage() {
       <section className="border-b border-border bg-white">
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1.15fr_0.85fr] md:items-center">
           <div>
-            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.22em] text-accent">Global music intelligence</p>
-            <h1 className="max-w-3xl text-5xl font-bold tracking-tight text-ink md:text-6xl">
-              A cleaner way to explore charts, artist growth, and music momentum.
-            </h1>
+            <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent">Global music intelligence</p>
+            <h1 className="text-5xl font-bold tracking-tight text-ink md:text-6xl">See what is moving in music—before everyone else reacts.</h1>
             <p className="mt-6 max-w-2xl text-lg text-slate-600">
-              MusicMetrics is a global-first music analytics platform built for fans, managers, indie labels, and chart watchers.
-              It combines fast navigation, editorial clarity, and future-ready data architecture.
+              MusicMetrics combines editorial clarity with structured performance data across charts, artists, tracks, and countries.
+              Built for chart watchers, artist teams, labels, and marketing analysts.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-              <Link href="/charts" className="rounded-xl bg-ink px-5 py-3 text-sm font-semibold text-white">
-                Explore charts
-              </Link>
-              <Link href="/insights" className="rounded-xl border border-border px-5 py-3 text-sm font-semibold text-ink">
-                Read insights
-              </Link>
+              <Link href="/charts" className="rounded-xl bg-ink px-5 py-3 text-sm font-semibold text-white">Explore charts</Link>
+              <Link href="/insights" className="rounded-xl border border-border px-5 py-3 text-sm font-semibold text-ink">Read insights</Link>
             </div>
           </div>
           <SearchFilter />
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <SectionHeading
-          eyebrow="Featured"
-          title="Launch-ready sections for discovery and growth"
-          description="The MVP is structured to serve both organic traffic and future monetization, without sacrificing speed or clarity."
-        />
-        <div className="grid gap-6 md:grid-cols-3">
-          {charts.map((item) => (
-            <Card key={item.slug} title={item.title} description={item.description} href={`/charts/${item.slug}`} meta={`${item.period} · ${item.region}`} />
-          ))}
-        </div>
-      </section>
+      <section className="mx-auto max-w-6xl px-6 py-16"><SectionHeading eyebrow="Featured charts" title="Priority dashboards" description="Curated chart surfaces for weekly decision making." /><div className="grid gap-6 md:grid-cols-2">{charts.slice(0,4).map((c)=><Link key={c.slug} href={`/charts/${c.slug}`} className="rounded-3xl border border-border bg-white p-6 shadow-soft"><p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">{c.sourcePlatform} · {c.cadence}</p><h3 className="mt-2 text-xl font-semibold text-ink">{c.title}</h3><p className="mt-2 text-slate-600">{c.description}</p></Link>)}</div></section>
+      <section className="mx-auto max-w-6xl px-6 pb-6"><AdSlot label="Reserved placement: leaderboard ad slot" /></section>
 
-      <section className="mx-auto max-w-6xl px-6 py-6">
-        <AdSlot label="Reserved display ad placement for future monetization" />
-      </section>
+      <section className="mx-auto max-w-6xl px-6 py-16"><SectionHeading eyebrow="Artists" title="Signals from artist momentum" /><div className="grid gap-6 md:grid-cols-4">{artists.slice(0,8).map((a)=><Link key={a.slug} href={`/artists/${a.slug}`} className="rounded-3xl border border-border bg-white p-5 shadow-soft"><h3 className="text-lg font-semibold text-ink">{a.name}</h3><p className="mt-2 text-sm text-slate-600">{a.genres.join(" · ")}</p><p className="mt-2 text-sm text-slate-500">{a.monthlyListenersEstimate.toLocaleString()} monthly listeners est.</p></Link>)}</div></section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <SectionHeading eyebrow="Artists" title="Artists gaining traction" description="Sample artist pages already model how MusicMetrics can evolve into a full analytics destination." />
-        <div className="grid gap-6 md:grid-cols-3">
-          {artists.map((item) => (
-            <Card key={item.slug} title={item.name} description={item.summary} href={`/artists/${item.slug}`} meta={`${item.genre} · ${item.monthlyListeners}`} />
-          ))}
-        </div>
-      </section>
+      <section className="mx-auto max-w-6xl px-6 py-16"><SectionHeading eyebrow="Tracks" title="Momentum snapshots" /><div className="grid gap-6 md:grid-cols-3">{tracks.slice(0,6).map((t)=><Link key={t.slug} href={`/tracks/${t.slug}`} className="rounded-3xl border border-border bg-white p-5 shadow-soft"><p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">{t.momentum}</p><h3 className="mt-2 text-lg font-semibold text-ink">{t.title}</h3><p className="mt-2 text-sm text-slate-600">{t.snapshot}</p></Link>)}</div></section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <SectionHeading eyebrow="Tracks" title="Track momentum pages" description="Track detail pages blend performance framing with editorial context, making them more useful than raw tables alone." />
-        <div className="grid gap-6 md:grid-cols-3">
-          {tracks.map((item) => (
-            <Card key={item.slug} title={item.title} description={item.summary} href={`/tracks/${item.slug}`} meta={`${item.artist} · ${item.momentum}`} />
-          ))}
-        </div>
-      </section>
+      <section className="mx-auto max-w-6xl px-6 py-16"><SectionHeading eyebrow="Countries" title="Regional trend map" /><div className="grid gap-6 md:grid-cols-2">{countries.slice(0,6).map((c)=><Link key={c.slug} href={`/countries/${c.slug}`} className="rounded-3xl border border-border bg-white p-5 shadow-soft"><h3 className="text-lg font-semibold text-ink">{c.name}</h3><p className="mt-2 text-sm text-slate-600">{c.summary}</p></Link>)}</div></section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <SectionHeading eyebrow="Countries" title="Country trend pages" description="Country-level pages open stronger long-tail search opportunities and give users clearer context." />
-        <div className="grid gap-6 md:grid-cols-3">
-          {countries.map((item) => (
-            <Card key={item.slug} title={item.name} description={item.summary} href={`/countries/${item.slug}`} meta={item.spotlight} />
-          ))}
-        </div>
-      </section>
+      <section className="mx-auto max-w-6xl px-6 py-16"><SectionHeading eyebrow="How it works" title="Methodology built for trust" description="We normalize source data, capture snapshots on defined cadences, and separate measured signals from editorial interpretation." /><div className="grid gap-6 md:grid-cols-3"><div className="rounded-3xl border border-border bg-white p-6">Source ingestion</div><div className="rounded-3xl border border-border bg-white p-6">Normalization and mapping</div><div className="rounded-3xl border border-border bg-white p-6">Editorial intelligence layer</div></div></section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <SectionHeading eyebrow="How it works" title="A better structure than a flat stats table" />
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-3xl border border-border bg-white p-6 shadow-soft">
-            <h3 className="text-lg font-semibold text-ink">1. Surface movement</h3>
-            <p className="mt-3 text-slate-600">Pages focus on momentum, regional shifts, and context that matter for breakout analysis.</p>
-          </div>
-          <div className="rounded-3xl border border-border bg-white p-6 shadow-soft">
-            <h3 className="text-lg font-semibold text-ink">2. Add editorial clarity</h3>
-            <p className="mt-3 text-slate-600">Every page is designed to support readable summaries, comparisons, and monetizable content layers.</p>
-          </div>
-          <div className="rounded-3xl border border-border bg-white p-6 shadow-soft">
-            <h3 className="text-lg font-semibold text-ink">3. Scale data later</h3>
-            <p className="mt-3 text-slate-600">The MVP uses local mock data today but is structured for future Spotify and YouTube ingestion pipelines.</p>
-          </div>
-        </div>
-      </section>
+      <section className="mx-auto max-w-6xl px-6 py-16"><SectionHeading eyebrow="Insights" title="Editorial intelligence" /><div className="grid gap-6 md:grid-cols-2">{insights.slice(0,4).map((i)=><Link key={i.slug} href={`/insights/${i.slug}`} className="rounded-3xl border border-border bg-white p-6 shadow-soft"><h3 className="text-xl font-semibold text-ink">{i.title}</h3><p className="mt-3 text-slate-600">{i.excerpt}</p></Link>)}</div></section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <SectionHeading eyebrow="Insights" title="Editorial + affiliate-ready content zone" description="This section is built to support future long-form SEO articles, product guides, and monetization content." />
-        <div className="grid gap-6 md:grid-cols-2">
-          {insights.map((item) => (
-            <Card key={item.slug} title={item.title} description={item.excerpt} href={`/insights/${item.slug}`} meta={item.category} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <div className="rounded-[2rem] bg-ink px-8 py-10 text-white">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-200">Newsletter placeholder</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight">Weekly chart movers, breakout artists, and trend notes.</h2>
-          <p className="mt-4 max-w-2xl text-slate-200">
-            This is intentionally a placeholder in the MVP, ready for future email capture and segmentation.
-          </p>
-        </div>
-      </section>
+      <section className="mx-auto max-w-6xl px-6 py-16"><div className="rounded-[2rem] bg-ink px-8 py-10 text-white"><p className="text-sm uppercase tracking-[0.18em] text-blue-200">Newsletter</p><h2 className="mt-2 text-3xl font-bold">Weekly intelligence briefing</h2><p className="mt-3 max-w-2xl text-slate-200">Subscription flow will be connected in phase 2. This section is reserved for sponsorship-ready newsletter growth.</p></div></section>
     </>
   );
 }

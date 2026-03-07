@@ -1,51 +1,40 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import Link from "next/link";
-import { artists, charts, countries, tracks } from "@/lib/data";
-
-type SearchItem = {
-  label: string;
-  href: string;
-  meta: string;
-};
+import { useMemo, useState } from "react";
+import { artists, charts, countries, tracks } from "@/lib/content";
 
 export function SearchFilter() {
   const [query, setQuery] = useState("");
 
-  const items: SearchItem[] = [
-    ...charts.map((item) => ({ label: item.title, href: `/charts/${item.slug}`, meta: `${item.region} chart` })),
-    ...artists.map((item) => ({ label: item.name, href: `/artists/${item.slug}`, meta: `${item.genre} artist` })),
-    ...tracks.map((item) => ({ label: item.title, href: `/tracks/${item.slug}`, meta: `${item.artist} track` })),
-    ...countries.map((item) => ({ label: item.name, href: `/countries/${item.slug}`, meta: "country page" }))
-  ];
+  const items = useMemo(
+    () => [
+      ...charts.map((item) => ({ label: item.title, sub: "Chart", href: `/charts/${item.slug}` })),
+      ...artists.map((item) => ({ label: item.name, sub: "Artist", href: `/artists/${item.slug}` })),
+      ...tracks.map((item) => ({ label: item.title, sub: "Track", href: `/tracks/${item.slug}` })),
+      ...countries.map((item) => ({ label: item.name, sub: "Country", href: `/countries/${item.slug}` }))
+    ],
+    []
+  );
 
-  const filtered = useMemo(() => {
-    if (!query.trim()) return items.slice(0, 8);
-    const q = query.toLowerCase();
-    return items.filter((item) => `${item.label} ${item.meta}`.toLowerCase().includes(q)).slice(0, 8);
-  }, [items, query]);
+  const filtered = items.filter((item) => item.label.toLowerCase().includes(query.toLowerCase())).slice(0, 8);
 
   return (
-    <div className="rounded-3xl border border-border bg-white p-5 shadow-soft">
-      <label htmlFor="site-search" className="mb-3 block text-sm font-semibold text-ink">
-        Search charts, artists, tracks, and countries
-      </label>
+    <div className="rounded-3xl border border-border bg-white p-6 shadow-soft">
+      <p className="mb-4 text-lg font-semibold text-ink">Quick search</p>
       <input
-        id="site-search"
         value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search MusicMetrics"
-        className="w-full rounded-xl border border-border px-4 py-3 outline-none ring-0 transition focus:border-accent"
+        onChange={(event) => setQuery(event.target.value)}
+        placeholder="Search artists, tracks, charts, countries"
+        className="w-full rounded-xl border border-border px-4 py-3"
       />
-      <div className="mt-4 grid gap-3">
+      <div className="mt-4 space-y-2">
         {filtered.map((item) => (
-          <Link key={`${item.href}-${item.label}`} href={item.href} className="rounded-2xl border border-border p-4 transition hover:border-accent hover:bg-blue-50">
-            <div className="font-semibold text-ink">{item.label}</div>
-            <div className="text-sm text-slate-500">{item.meta}</div>
+          <Link key={item.href} href={item.href} className="block rounded-xl border border-border p-3 hover:border-accent">
+            <p className="font-medium text-ink">{item.label}</p>
+            <p className="text-sm text-slate-500">{item.sub}</p>
           </Link>
         ))}
-        {filtered.length === 0 ? <p className="text-sm text-slate-500">No matching entries yet.</p> : null}
       </div>
     </div>
   );

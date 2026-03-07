@@ -1,28 +1,22 @@
 import Link from "next/link";
-import { AdSlot } from "@/components/shared/ad-slot";
 import { PageIntro } from "@/components/shared/page-intro";
-import { insights } from "@/lib/data";
+import { insights } from "@/lib/content";
 import { buildMetadata } from "@/lib/seo";
 
-export const metadata = buildMetadata("Insights", "Editorial analysis and future affiliate-ready content on MusicMetrics.", "/insights");
+export const metadata = buildMetadata("Insights", "Editorial analysis for music performance intelligence.", "/insights");
 
 export default function InsightsPage() {
   return (
     <>
-      <PageIntro title="Insights" description="This section is designed for analysis articles, SEO content clusters, and future affiliate/editorial monetization." />
-      <section className="mx-auto max-w-6xl px-6 py-12">
-        <div className="mb-8">
-          <AdSlot label="Reserved sponsorship or affiliate content block" />
-        </div>
-        <div className="grid gap-6">
-          {insights.map((item) => (
-            <Link key={item.slug} href={`/insights/${item.slug}`} className="rounded-3xl border border-border bg-white p-8 shadow-soft">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">{item.category}</p>
-              <h2 className="mt-2 text-2xl font-semibold text-ink">{item.title}</h2>
-              <p className="mt-3 text-slate-600">{item.excerpt}</p>
-            </Link>
-          ))}
-        </div>
+      <PageIntro title="Insights" description="Editorial analysis built to explain the signals behind chart and audience movement." />
+      <section className="mx-auto max-w-6xl px-6 py-12 grid gap-6 md:grid-cols-2">
+        {insights.map((item) => (
+          <Link key={item.slug} href={`/insights/${item.slug}`} className="rounded-3xl border border-border bg-white p-7 shadow-soft">
+            <h2 className="text-2xl font-semibold text-ink">{item.title}</h2>
+            <p className="mt-3 text-slate-600">{item.excerpt}</p>
+            <p className="mt-3 text-sm text-slate-500">{item.author} · {item.publishedAt}</p>
+          </Link>
+        ))}
       </section>
     </>
   );
