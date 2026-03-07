@@ -1,0 +1,14 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="70" y="70" width="1060" height="490" rx="28" fill="white" fill-opacity="0.08"/>
+  <text x="110" y="255" fill="white" font-family="Inter, Arial, sans-serif" font-size="68" font-weight="700">MusicMetrics</text>
+  <text x="110" y="330" fill="#bfdbfe" font-family="Inter, Arial, sans-serif" font-size="34">Global charts, artist growth, track momentum</text>
+  <text x="110" y="388" fill="#bfdbfe" font-family="Inter, Arial, sans-serif" font-size="34">and country-level music insights.</text>
+  <text x="110" y="488" fill="#cbd5e1" font-family="Inter, Arial, sans-serif" font-size="24">musicmetrics.net</text>
+</svg>
