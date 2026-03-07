@@ -11,6 +11,26 @@ export const metadata: Metadata = {
     template: "%s | MusicMetrics"
   },
   description: siteConfig.description,
+  openGraph: {
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+    type: "website",
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} social preview`
+      }
+    ]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage]
+  },
   manifest: "/manifest.webmanifest"
 };
 

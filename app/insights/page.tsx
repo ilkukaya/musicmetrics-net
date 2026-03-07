@@ -24,6 +24,14 @@ export default function InsightsPage() {
           ))}
         </div>
       </section>
+
+      <section className="mx-auto max-w-6xl px-6 pb-12">
+        <p className="text-sm text-slate-600">
+          Continue browsing: <Link className="font-semibold text-ink underline-offset-2 hover:underline" href="/">home</Link>,
+          <Link className="ml-1 font-semibold text-ink underline-offset-2 hover:underline" href="/charts">charts</Link>, and
+          <Link className="ml-1 font-semibold text-ink underline-offset-2 hover:underline" href="/artists">artists</Link>.
+        </p>
+      </section>
     </>
   );
 }
