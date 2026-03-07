@@ -1,0 +1,15 @@
+name: Sync YouTube
+
+on:
+  schedule:
+    - cron: "30 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger YouTube sync endpoint
+        run: |
+          curl -X POST "${{ secrets.SITE_URL }}/api/internal/sync/youtube/run" \
+            -H "x-cron-secret: ${{ secrets.CRON_SECRET }}"
